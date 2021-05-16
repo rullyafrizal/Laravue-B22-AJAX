@@ -22,6 +22,12 @@ class UserController extends Controller
         return new UserResource($names);
     }
 
+    public function edit ($id) {
+        $name = User::findOrFail($id);
+
+        return new UserResource($name);
+    }
+
     public function update($id, Request $request){
         $name = User::find($id);
         $name->name = request('name');

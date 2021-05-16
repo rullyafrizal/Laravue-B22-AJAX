@@ -33,5 +33,6 @@ Route::group(['prefix' => 'crud-name'], function(){
     Route::post('/', 'UserController@store');
     Route::post('/update/{id}', 'UserController@update');
     Route::post('/delete/{id}', 'UserController@delete');
+    Route::get('/{id}', 'UserController@edit');
 });
 

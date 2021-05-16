@@ -21,11 +21,11 @@
                         </div>
                         <div class="input-group-append">
                             <button type="button" class="flex-fill btn btn-sm btn-success" @click="addName" v-show="!updateSubmit">Add</button>
-                            <button type="button" class="flex-fill btn btn-sm btn-success" @click="updateName(names[selectedName])" v-show="updateSubmit">Update</button>
+                            <button type="button" class="flex-fill btn btn-sm btn-success" @click="updateName(names[selectedNameIndex])" v-show="updateSubmit">Update</button>
                         </div>
                     </div>
                     <ul class="list-group my-3">
-                        <li class="list-group-item" v-for="(name,index) in names">
+                        <li class="list-group-item" v-for="(name, index) in names">
                             <div class="row justify-content-between">
                                 <div class="col-lg-9">
                                     <span>@{{ name.name }}</span>
@@ -51,39 +51,42 @@
         data: {
             newName: '',
             names: [],
-            selectedName: '',
+            selectedNameIndex: null,
             updateSubmit: false
         },
         methods: {
             addName(){
                 let nameInput = this.newName.trim();
                 if(nameInput){
-                    this.$http.post('/api/crud-name', {name: nameInput}).then(response => {
-                        this.names.unshift({
-                            name: nameInput
+                    this.$http.post('/api/crud-name', {name: nameInput})
+                        .then(response => {
+                            this.names.unshift({
+                                name: nameInput
+                            });
+                            this.newName = '';
+                            window.location.reload();
                         });
-                        this.newName = '';
-                    });
                 }
             },
             editName(paramName, index){
-                this.selectedName = index;
+                this.selectedNameIndex = index;
                 this.updateSubmit = true;
                 this.newName = paramName.name;
             },
             updateName(name){
                 let nameInput = this.newName.trim();
-                this.$http.post(`api/crud-name/update/${name.id}`, {name: nameInput}).then(response => {
-                    this.names[this.selectedName].name = nameInput;
-                    this.newName = '';
-                    this.updateSubmit = false;
-                    this.selectedName = '';
-                });
+                this.$http.post(`api/crud-name/update/${name.id}`, {name: nameInput})
+                    .then(response => {
+                        this.names[this.selectedNameIndex].name = nameInput;
+                        this.newName = '';
+                        this.updateSubmit = false;
+                        this.selectedNameIndex = null;
+                    });
             },
-            deleteName(paramName, index){
+            deleteName(name, index){
                 let cf = confirm('Apakah anda yakin?');
                 if(cf){
-                    this.$http.post('api/crud-name/delete/' + paramName.id).then(response => {
+                    this.$http.post('api/crud-name/delete/' + name.id).then(response => {
                         this.names.splice(index, 1);
                     });
                 }

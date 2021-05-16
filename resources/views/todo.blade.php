@@ -69,6 +69,7 @@
                                     done: 0
                                 });
                                 this.newTodo = '';
+                                window.location.reload();
                             }
                         );
 
