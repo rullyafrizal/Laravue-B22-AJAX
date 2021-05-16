@@ -34,8 +34,12 @@
                                     <span :class="{'completed': todo.done}">@{{todo.text}}</span>
                                 </div>
                                 <div class="col justify-content-end">
-                                    <button type="button" class="btn btn-sm btn-danger" @click="removeTodo(index, todo)">Delete</button>
-                                    <button type="button" class="btn btn-sm btn-success" @click="toggleComplete(todo)">Done</button>
+                                    <button type="button" class="btn btn-sm btn-danger" @click="removeTodo(index, todo)">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-success" @click="toggleComplete(todo)">
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                    </button>
                                 </div>
                             </div>
                         </li>
@@ -52,7 +56,7 @@
             el: '#app',
             data: {
                 newTodo: '',
-                todos: []
+                todos: [],
             },
             methods: {
                 addTodo(){
